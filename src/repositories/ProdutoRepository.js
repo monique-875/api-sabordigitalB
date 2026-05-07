@@ -17,11 +17,29 @@ return mostrarProduto[0]
          return resultadoCadastro.insertId
 
     }
-    async atualizarProduto (id, dadosDoProduto){
-        const produtoAtualizado = await pool.query("UPDATE produto SET ? WHERE id = ?" [dadosDoProduto, id])
+    // async atualizarProduto (id, dadosDoProduto){
+    //     // const produtoAtualizado = await pool.query("UPDATE produto SET ? WHERE id = ?" [dadosDoProduto, id])// atualizar tudo mais pode gerar erro quando quer atualizar só um
 
-        return produtoAtualizado
+    //     // return produtoAtualizado
 
+    // }
+
+    async atualizarProduto (id, dadosDoProduto){// quando quer atualizar um produto especifico
+        const camposProdutos= []
+        const values =[]
+
+        for(const[key,value] of Object.entries (dadosDoProduto)){// vai separar nome:Monique nome vai em campos produto e Monique vai em values
+            camposProdutos.push(`${key} = ?`)// push adiciona no ultimo campo do ARRAY
+            dadosDoProduto.push(value)
+
+        }
+        if(camposProdutos.length === 0) return null
+        dadosDoProduto.push(id)
+
+        const query = `UPDATE produto SET $ {camposDoProduto.join(',)} WHERE id = ?`// significa que quer separar eles por virgula
+
+        const resultado = await pool.query(query,dadosDoProduto)
+        return resultado.affectedRows// verifica quantas linhas do banco foram realmente afetadas pela atualização.
     }
 
     async apagarProduto (id){
