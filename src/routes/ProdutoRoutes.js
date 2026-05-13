@@ -7,7 +7,8 @@ const ProdutoController = require('../controllers/ProdutoController')
 router.get('/', ProdutoController.listarProduto)// nao é necessario mandar atributos ele entende que o rq res esta sendo mandado para listarProdutos
 router.get('/:id', ProdutoController.buscarProdutoporId)
 router.post('/',ProdutoController.cadastrarProduto)
-router.put('/:id',ProdutoController.atualizarProduto)
+router.put('/:id',ProdutoController.atualizarProduto)//PUT serve para atualizar o objeto inteiro. Se você esquecer de 
+// mandar o preço,ele pode apagar o preço no banco.
 router.delete('/:id',ProdutoController.detarProduto)
 
 module.exports = router

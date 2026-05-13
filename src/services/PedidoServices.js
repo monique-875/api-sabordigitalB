@@ -1,3 +1,12 @@
+// Serviço de Processamento. Ele faz cálculos e verificações antes de tocar no banco. 
+// Ele calcula o totalCalculado somando o preço de cada item e verifica se o produto está disponivel.
+
+//Conversa com  ProdutoRepository e PedidoRepository 
+//Possui varias validações:
+//  Verifica se o array de itens está vazio.
+//Verifica se a quantidade é maior que zero.
+//Verifica se o status enviado é válido (dentro de uma lista permitida).
+
 const PedidoRepository = require('../repositories/PedidoRepository');
 const ProdutoRepository = require('../repositories/ProdutoRepository');
 
@@ -14,7 +23,8 @@ class PedidoService {
 
         for (const item of itens) {
             if (!item.produto_id || !item.quantidade || item.quantidade <= 0) {
-                throw new Error('Cada item deve ter produto_id e quantidade maior que zero.');
+                throw new Error('Cada item deve ter produto_id e quantidade maior que zero.');//para criar avisos específicos
+                //  para o usuário
             }
 
             const produto = await ProdutoRepository.findById(item.produto_id);

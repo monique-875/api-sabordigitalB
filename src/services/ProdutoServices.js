@@ -1,3 +1,8 @@
+//CRUD Simples. Ele apenas repassa a ordem para o banco. 
+// Se você pede para cadastrar, ele manda cadastrar. Ele não "pensa" sobre os dados.
+//So conversa com ProdutoRepository
+//Não gera mensagens próprias. Se der erro, o sistema apenas "quebra" ou manda o erro padrão do banco.
+
 const ProdutoRepository = require('../repositories/ProdutoRepository')
 
 class ProdutoService{
