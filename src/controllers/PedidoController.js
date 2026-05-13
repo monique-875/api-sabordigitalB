@@ -3,8 +3,9 @@ const PedidoService = require('../services/PedidoService');
 class PedidoController {
     async create(req, res) {
         try {
-            const pedido = await PedidoService.criarPedido(req.body);
-            res.status(201).json({
+            const pedido = await PedidoService.criarPedido(req.body);//Possui await
+//Com await: Você faz o pedido e espera o garçom trazer o prato da cozinha. Só quando o prato chega na mesa é que você começa a comer.
+            res.status(201).json({//erros tratados de forma mais organizada 
                 mensagem: 'Pedido criado com sucesso',
                 pedido
             });
@@ -13,7 +14,7 @@ class PedidoController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res) {//Nome em ingles 
         try {
             const pedidos = await PedidoService.listarPedidos();
             res.status(200).json(pedidos);
@@ -38,7 +39,7 @@ class PedidoController {
             const { status } = req.body;
             
             if (!status) {
-                return res.status(400).json({ erro: 'O campo status é obrigatório.' });
+                return res.status(400).json({ erro: 'O campo status é obrigatório.' });//Validação de entrada o Produto não tem
             }
 
             const pedidoAtualizado = await PedidoService.atualizarStatus(id, status);
@@ -57,9 +58,9 @@ class PedidoController {
         try {
             const id = req.params.id;
             await PedidoService.excluirPedido(id);
-            res.status(200).json({ mensagem: 'Pedido excluído com sucesso' });
+            res.status(200).json({ mensagem: 'Pedido excluído com sucesso' });//Mensagens precisas
         } catch (error) {
-            const code = error.message.includes('não encontrado') ? 404 : 400;
+            const code = error.message.includes('não encontrado') ? 404 : 400;//retorna uma mesma mensagem para os dois tipos de erro economizando linha de codigo
             res.status(code).json({ erro: error.message });
         }
     }

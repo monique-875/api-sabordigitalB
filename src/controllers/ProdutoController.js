@@ -2,9 +2,10 @@ const ProdutoService = require('../services/ProdutoService')
 
 class ProdutoController{
     //GET
-    async listarProduto(req,res){// respostas de sucesso e respostas de erro
+    async listarProduto(req,res){// respostas de sucesso e respostas de erro//NOME EM PORTUGUES
+    //Sem await: Você faz o pedido ao garçom e, antes dele sair da mesa, você já tenta comer o prato (que ainda nem foi feito). Você vai "comer" o ar.
         try {
-            const resultado = ProdutoService.listarProdutos()// service responsavel por listar produtos
+            const resultado = ProdutoService.listarProdutos()// service responsavel por listar produtos//NÃO TEM AWAIT
             // nesse caso nao é necessario mandar assim   res.status(200).json(resultado)
             res.json(resultado)
             
@@ -26,7 +27,7 @@ class ProdutoController{
         } catch (error) {
              res.status(erro.status || 500).json ({
                 sucesso:false,
-                mensagem: erro.mensagem || ' Erro interno do servidor',// erro que o  sistema trás ( service)
+                mensagem: erro.mensagem || ' Erro interno do servidor',// Mensagem não tão precisa
                 erro: erro.stack || erro
             })
             
@@ -56,7 +57,7 @@ class ProdutoController{
             const resultado =  await ProdutoService.atualizarProduto(req.params.id, req.body)
             res.json(resultado)
             
-        } catch (error) {
+        } catch (error) {// mesmo bloco catch para tudo
              res.status(erro.status || 500).json ({
                 sucesso:false,
                 mensagem: erro.mensagem || ' Erro interno do servidor',// erro que o  sistema trás ( service)
