@@ -1,10 +1,12 @@
 // ACESSA O BANCO
+// Faz apenas um SELECT *. Ele traz apenas os dados básicos daquela linha da tabela.
+// Ele grava a informação de uma vez e, se der erro, não tem como voltar atrás automaticamente.
 
 const pool = require('../config/database')
 
 class ProdutoRepository{
     async listarProdutos(){
-        const listaProdutos = await pool.query ('SELECT * FROM produto')
+        const listaProdutos = await pool.query ('SELECT * FROM produto')//Pega o pacote fechado
         return listaProdutos
     }
 

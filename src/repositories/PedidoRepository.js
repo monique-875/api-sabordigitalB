@@ -1,8 +1,9 @@
 const pool = require('../config/database');
+//ele faz um INNER JOIN. Ele traz o pedido E todos os itens que pertencem a ele, com nome e descrição dos produtos.
 
 class PedidoRepository {
     async findAll() {
-        const [rows] = await pool.query('SELECT * FROM pedido ORDER BY criado_em DESC');
+        const [rows] = await pool.query('SELECT * FROM pedido ORDER BY criado_em DESC');//[rows]. Ele já "abre o pacote" e pega só os dados.
         return rows;
     }
 
@@ -30,7 +31,8 @@ class PedidoRepository {
         const connection = await pool.getConnection();
 
         try {
-            await connection.beginTransaction();
+            await connection.beginTransaction();//Se você estiver criando um pedido e a internet cair na hora de gravar os itens,
+            //  ele cancela tudo (rollback). Isso evita que o banco fique com um pedido sem itens.
 
             const [pedidoResult] = await connection.query(
                 'INSERT INTO pedido (cliente, status, total) VALUES (?, ?, ?)',
@@ -79,7 +81,8 @@ class PedidoRepository {
 
     async delete(id) {
         const [result] = await pool.query('DELETE FROM pedido WHERE id = ?', [id]);
-        return result.affectedRows;
+        return result.affectedRows;// Se você tentar deletar algo que não existe, ele retorna 0. 
+        // Isso permite que o sistema avise: "Nada foi deletado".
     }
 }
 
